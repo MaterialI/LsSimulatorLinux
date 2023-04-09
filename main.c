@@ -9,24 +9,28 @@
 #include <unistd.h>
 
 
+//Desc 
+int ls_Defult(char* dir_path){
+    DIR* dir = opendir(dir_path);
+    if(dir == NULL){printf("File cannot be open\n"); return -1;}
+    struct dirent* file_entity;
+    file_entity = readdir(dir);
+
+    while (file_entity != NULL)
+    {   
+        printf(" file name is : %c\n", file_entity->d_type);
+        file_entity = readdir(dir);
+    }
+    
+}
 
 
 int main(int argc, char ** argv) {
 
 
-    
-    if(argc < 2){
-        // Just the ls command 
-        printf("To Do : implement the ls\n ");
-    }
-    else if (argc ==2){
-        // Do somehting with the flags 
 
-    }
-
-    else {
-        printf("Bad input : too many commands\n");
-    }
+    char* test = ".";
+    ls_Defult(test);
 
 
 
