@@ -22,6 +22,7 @@ int ls_Defult(char* dir_path){
              file_entity = readdir(dir);
              continue;
         }
+        e
         printf(" file name is : %s\n", file_entity->d_name);
                      file_entity = readdir(dir);
 
