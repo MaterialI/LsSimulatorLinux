@@ -10,27 +10,26 @@
 
 
 //Desc 
-int ls_Defult(char* dir_path){
+int ls_Default(char* dir_path){
+    
     DIR* dir = opendir(dir_path);
     if(dir == NULL){printf("File cannot be open\n"); return -1;}
     struct dirent* file_entity;
     file_entity = readdir(dir);
 
-    while (file_entity != NULL)
-    {   
-        if(strcmp(file_entity->d_name , ".") ){
-             file_entity = readdir(dir);
-             continue;
+     while (file_entity != NULL)
+    {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
+        {
+             printf(" file name is : %s\n", file_entity->d_name);
+            file_entity = readdir(dir);
         }
-        e
-        printf(" file name is : %s\n", file_entity->d_name);
-                     file_entity = readdir(dir);
-
-    
+        else {break;}
+      
+    }
     
 }
 
-}
+
 
 
 int main(int argc, char ** argv) {
@@ -38,7 +37,7 @@ int main(int argc, char ** argv) {
 
 
     char* test = ".";
-    ls_Defult(test);
+    ls_Default(test);
 
 
 
