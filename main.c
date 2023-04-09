@@ -17,18 +17,19 @@ int ls_Defult(char* dir_path){
     struct dirent* file_entity;
     file_entity = readdir(dir);
 
-    while (file_entity != NULL)
-    {   
-        if(strcmp(file_entity->d_name, ".") || strcmp(file_entity->d_name, ".."))
+     while (file_entity != NULL)
+    {   if(file_entity->d_type == 4 && ((file_entity->d_name , "..")  || strcmp(file_entity->d_name , ".") ))
         {
             file_entity = readdir(dir);
             continue;
         }
         printf(" file name is : %s\n", file_entity->d_name);
-        file_entity = readdir(dir);
+            file_entity = readdir(dir);
     }
     
 }
+
+
 
 
 int main(int argc, char ** argv) {
