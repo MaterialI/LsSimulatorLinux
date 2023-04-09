@@ -10,7 +10,7 @@
 
 
 //Desc 
-int ls_Defult(char* dir_path){
+int ls_Default(char* dir_path){
     
     DIR* dir = opendir(dir_path);
     if(dir == NULL){printf("File cannot be open\n"); return -1;}
@@ -18,7 +18,8 @@ int ls_Defult(char* dir_path){
     file_entity = readdir(dir);
 
      while (file_entity != NULL)
-    {   if(file_entity->d_type == 4 && ((file_entity->d_name , "..")  || strcmp(file_entity->d_name , ".") ))
+    {   
+        if(file_entity->d_type == 4 && ((file_entity->d_name , "..")  || strcmp(file_entity->d_name , ".") ))
         {
             file_entity = readdir(dir);
             continue;
@@ -37,7 +38,7 @@ int main(int argc, char ** argv) {
 
 
     char* test = ".";
-    ls_Defult(test);
+    ls_Default(test);
 
 
 
