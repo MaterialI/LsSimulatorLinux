@@ -17,11 +17,13 @@ int ls_Defult(char* dir_path){
     file_entity = readdir(dir);
 
     while (file_entity != NULL)
-    {   
-        printf(" file name is : %c\n", file_entity->d_type);
+    {   if(strcmp(file_entity->d_name , "..") != 0 && strcmp(file_entity->d_name , ".") != 0){
+        printf(" file name is : %s\n", file_entity->d_name);
         file_entity = readdir(dir);
     }
     
+}
+
 }
 
 
