@@ -24,16 +24,13 @@ void name_Read_Entities(DIR* dir ){
     file_entity = readdir(dir);
 
      while (file_entity != NULL)
-    {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-        {
-             printf(" file name is : %s\n", file_entity->d_name);
-            file_entity = readdir(dir);
-        }
-        else {break;}
-    }
+    { 
+        if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) {  printf("%s\n",   file_entity->d_name );}
+        
+        file_entity = readdir(dir);
 }
 
-
+}
 
 
 
@@ -41,19 +38,24 @@ void name_Read_Entities(DIR* dir ){
 
 
 void indoe_Read_Entities(DIR* dir){
+    int i = 6; 
     struct dirent* file_entity;
     file_entity = readdir(dir);
-    struct stat s;
      while (file_entity != NULL)
     {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-        {   
-            stat("/README.md" , &s);
-             printf(" File ID is : %lu  File name is : %s\n ", s.st_ino  , file_entity->d_name);
+        {  
+            printf("%s\n",   file_entity->d_name );
             file_entity = readdir(dir);
         }
         else {break;}
     }
+    printf("\n");
 }
+
+
+
+
+
 
 
 
@@ -88,8 +90,8 @@ int main(int argc, char ** argv) {
 
 
 
-    char* test = "/home/vagrant/Desktop/OS300/Assign4/Assign4_300/test_file1";
-    i_Flag(test);
+    char* test = "/home/vagrant/Desktop/OS300/Assign4/Assign4_300/test_file";
+    ls_Default(test);
 
 
     return 0 ; 
