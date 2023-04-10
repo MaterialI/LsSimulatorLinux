@@ -32,7 +32,7 @@ void name_Read_Entities(DIR* dir ){
         }
         
         file_entity = readdir(dir);
-}
+    }
 
 }
 
@@ -84,36 +84,35 @@ void L_Read_Entities(DIR* dir)
     }
 }
 void R_Read_Entities(DIR* dir, char* aPath){
-   //printf("three\n");
+   
     struct dirent* file_entity;
-   // printf("four\n");
     file_entity = readdir(dir);
-   // printf("five\n");
-
     struct stat s;
-     while (file_entity != NULL)
+    printf("%s\n", aPath);
+    name_Read_Entities(dir);
+    
+    while (file_entity != NULL)
     {   
-        if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
+        if((strcmp(file_entity->d_name , "..")!=0 || strcmp(file_entity->d_name , ".")  !=0))
         {
             char path[100] = {0};
-            if(file_entity->d_type == 4){
-                strcat(path, aPath);
-                strcat(path, "/");
-                strcat(path, file_entity->d_name);
-                //printf("%s", path);
-                //printf("one\n");
-                DIR* dr = opendir(path);
-                //printf("two\n");
-                R_Read_Entities(dr, path);
-            }
+            // if(file_entity->d_type == 4){
+            //     strcat(path, aPath);
+            //     strcat(path, "/");
+            //     strcat(path, file_entity->d_name);
+               
+            //     DIR* dr = opendir(path);
+            //     R_Read_Entities(dr, path);
+            // }
               
             
-            stat(path, &s);
-             printf("%s\n ", file_entity->d_name);
+           // stat(path, &s);
+           //  printf("%s\n ", file_entity->d_name);
             
         }
-        file_entity = readdir(dir);
+       file_entity = readdir(dir);
     }
+    printf("----------------\n");
 }
 
 
