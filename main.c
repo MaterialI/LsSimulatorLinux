@@ -90,11 +90,12 @@ void R_Read_Entities(DIR* dir, char* aPath){
     indoe_Read_Entities(dir);
     dir = open_Dir(aPath);
     file_entity = readdir(dir);
+    
      while (file_entity != NULL)
     {   
         if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
         {
-            char path[300] = {0};
+             char path[300] = {0};
             if(file_entity->d_type == 4){
                 strcat(path, aPath);
                 strcat(path, "/");
