@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 //static char* test = "/home/vagrant/Documents/CMPT276/project/parabix-devel-master";
-static char* test = "..";
+static char* test = "./Test";
 // Disc : Opens  a directory for reading and reutnrs null if the file doesn't exist 
 
 DIR* open_Dir(char* dir_path){
@@ -25,13 +25,15 @@ void name_Read_Entities(DIR* dir ){
     file_entity = readdir(dir);
 
      while (file_entity != NULL)
-    {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-        {
-             printf(" file name is : %s\n", file_entity->d_name);
-            file_entity = readdir(dir);
+    { 
+        if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
+        {  
+            printf("%s\n",   file_entity->d_name );
         }
-        else {break;}
-    }
+        
+        file_entity = readdir(dir);
+}
+
 }
 
 
@@ -39,38 +41,21 @@ void name_Read_Entities(DIR* dir ){
 
 
 
-
-
 void indoe_Read_Entities(DIR* dir){
-    printf("three\n");
+    int i = 6; 
     struct dirent* file_entity;
     printf("four\n");
     file_entity = readdir(dir);
-    printf("five\n");
-
-    struct stat s;
      while (file_entity != NULL)
-    {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-        {
-            char path[100] = {0};
-            if(file_entity->d_type == 4){
-                strcat(path, test);
-                strcat(path, "/");
-                strcat(path, file_entity->d_name);
-                printf("%s", path);
-                printf("one\n");
-                DIR* dr = opendir(path);
-                printf("two\n");
-                indoe_Read_Entities(dr);
-            }
-              
+    {   if((strcmp(file_entity->d_name , "..")!=0 && strcmp(file_entity->d_name , ".") !=0 ))
+        {  
+            printf("%s\n",   file_entity->d_name );
             
-            stat(path, &s);
-             printf(" File ID is : %lu  File name is : %s\n ", s.st_ino  , file_entity->d_name);
-            file_entity = readdir(dir);
         }
-        else {break;}
+        file_entity = readdir(dir);
+        
     }
+    printf("\n");
 }
 
 void L_Read_Entities(DIR* dir)
@@ -115,12 +100,17 @@ void R_Read_Entities(DIR* dir, char* aPath){
               
             
             stat(path, &s);
-             printf(" %llu  %s\n ", s.st_ino  , file_entity->d_name);
-            file_entity = readdir(dir);
+             printf("%s\n ", file_entity->d_name);
+            
         }
-        else {continue;}
+        file_entity = readdir(dir);
     }
 }
+
+
+
+
+
 
 //Desc opens the given directory and reads it's contents  
 // returns -1 if the file DNE 
