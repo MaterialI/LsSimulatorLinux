@@ -32,7 +32,7 @@ void name_Read_Entities(DIR* dir ){
         }
         
         file_entity = readdir(dir);
-}
+    }
 
 }
 
@@ -64,7 +64,7 @@ void indoe_Read_Entities(DIR* dir){
         file_entity = readdir(dir);
         i++;
     }
-    printf("\n");
+   printf("\n");
 }
 
 void L_Read_Entities(DIR* dir)
@@ -85,40 +85,29 @@ void L_Read_Entities(DIR* dir)
 }
 void R_Read_Entities(DIR* dir, char* aPath){
 
-    
     struct dirent* file_entity;
     printf("%s\n", aPath);
     indoe_Read_Entities(dir);
-
     dir = open_Dir(aPath);
     file_entity = readdir(dir);
-    //indoe_Read_Entities(dir);
-    //struct stat s;
      while (file_entity != NULL)
     {   
         if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
         {
-            char path[100] = {0};
+            char path[300] = {0};
             if(file_entity->d_type == 4){
                 strcat(path, aPath);
                 strcat(path, "/");
                 strcat(path, file_entity->d_name);
-                
-                //printf("one\n");
                 DIR* dr = opendir(path);
-                //printf("two\n");
-                R_Read_Entities(dr, path);
                 printf("\n");
-            }
-              
-            
-           // stat(path, &s);
-             //printf("%s\n ", file_entity->d_name);
-            
+                R_Read_Entities(dr, path);
+            }  
         }
+        
         file_entity = readdir(dir);
     }
-    // printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+
 }
 
 
