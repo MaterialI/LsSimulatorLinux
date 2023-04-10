@@ -12,6 +12,9 @@ static char* test = "/home/vagrant/Documents/CMPT276/project/parabix-devel-maste
 //static char* test = "./Test";
 // Disc : Opens  a directory for reading and reutnrs null if the file doesn't exist 
 
+
+typedef void (*flag_func)(DIR*);
+
 DIR* open_Dir(char* dir_path){
         DIR* dir = opendir(dir_path);
     if(!dir){return NULL;}
@@ -42,27 +45,21 @@ void name_Read_Entities(DIR* dir ){
 
 //
 void indoe_Read_Entities(DIR* dir){
-    int i = 3; 
+    int i = 1; 
     struct dirent* file_entity;
-    //printf("four\n");
     file_entity = readdir(dir);
      while (file_entity != NULL)
-    {   
-        if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
-        {  
-            if(i%2 == 0)
-            {
-                printf(" %-5lu %-5s\n",  file_entity->d_ino, file_entity->d_name );
-            }
-            else {
-                printf(" %-5lu %-5s  ",  file_entity->d_ino, file_entity->d_name );
-            }
-            
-        
-        }
+    {   if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
+    {  
+       
+        printf(" %8lu   %-8s  ",  file_entity->d_ino, file_entity->d_name );
+         if(i%4 == 0){printf("\n\n" );}
+         i++;
+
+    
+    }
         
         file_entity = readdir(dir);
-        i++;
     }
    printf("\n");
 }
@@ -83,11 +80,11 @@ void L_Read_Entities(DIR* dir)
         else {break;}
     }
 }
-void R_Read_Entities(DIR* dir, char* aPath){
+void R_Read_Entities(DIR* dir, char* aPath, flag_func passedFunc){
 
     struct dirent* file_entity;
     printf("%s\n", aPath);
-    indoe_Read_Entities(dir);
+    passedFunc(dir);
     dir = open_Dir(aPath);
     file_entity = readdir(dir);
     
@@ -102,7 +99,7 @@ void R_Read_Entities(DIR* dir, char* aPath){
                 strcat(path, file_entity->d_name);
                 DIR* dr = opendir(path);
                 printf("\n");
-                R_Read_Entities(dr, path);
+                R_Read_Entities(dr, path,passedFunc);
             }  
         }
         file_entity = readdir(dir);
@@ -142,12 +139,12 @@ int i_Flag(char* dir_path){
     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
     indoe_Read_Entities(dir);
 }
-int R_Flag(char* dir_path){
+int R_Flag(char* dir_path, flag_func passedFunc){
     
    DIR* dir =  opendir(dir_path);
 
     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
-    R_Read_Entities(dir, test);
+    R_Read_Entities(dir, test, passedFunc);
 }
 
 
@@ -156,8 +153,7 @@ int main(int argc, char ** argv) {
 
 
 
-    
-    R_Flag(test);
+    R_Flag(test, name_Read_Entities);
 
 
     return 0 ; 
