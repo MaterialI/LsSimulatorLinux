@@ -38,16 +38,20 @@ void name_Read_Entities(DIR* dir ){
 
 
 void indoe_Read_Entities(DIR* dir){
-    int i = 6; 
+    int i = 3; 
     struct dirent* file_entity;
     file_entity = readdir(dir);
      while (file_entity != NULL)
-    {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-        {  
-            printf("%s\n",   file_entity->d_name );
-            file_entity = readdir(dir);
-        }
-        else {break;}
+    {   if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
+    {  
+        if(i%2 == 0){printf(" %-5lu %-5s\n",  file_entity->d_ino, file_entity->d_name );}
+        else {printf(" %-5lu %-5s  ",  file_entity->d_ino, file_entity->d_name );}
+        
+    
+    }
+        
+        file_entity = readdir(dir);
+        i++;
     }
     printf("\n");
 }
@@ -91,7 +95,7 @@ int main(int argc, char ** argv) {
 
 
     char* test = "/home/vagrant/Desktop/OS300/Assign4/Assign4_300/test_file";
-    ls_Default(test);
+    i_Flag(test);
 
 
     return 0 ; 
