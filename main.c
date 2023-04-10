@@ -42,27 +42,21 @@ void name_Read_Entities(DIR* dir ){
 
 //
 void indoe_Read_Entities(DIR* dir){
-    int i = 3; 
+    int i = 1; 
     struct dirent* file_entity;
-    //printf("four\n");
     file_entity = readdir(dir);
      while (file_entity != NULL)
-    {   
-        if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
-        {  
-            if(i%2 == 0)
-            {
-                printf(" %-5lu %-5s\n",  file_entity->d_ino, file_entity->d_name );
-            }
-            else {
-                printf(" %-5lu %-5s  ",  file_entity->d_ino, file_entity->d_name );
-            }
-            
-        
-        }
+    {   if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
+    {  
+       
+        printf(" %8lu   %-8s  ",  file_entity->d_ino, file_entity->d_name );
+         if(i%4 == 0){printf("\n\n" );}
+         i++;
+
+    
+    }
         
         file_entity = readdir(dir);
-        i++;
     }
    printf("\n");
 }
