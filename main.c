@@ -1,164 +1,3 @@
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <dirent.h>
-// #include <sys/stat.h>
-// #include <string.h>
-// #include <time.h>
-// #include <pwd.h>
-// #include <grp.h>
-// #include <unistd.h>
-
-// static char* test = "/home/vagrant/Documents/CMPT276/project/parabix-devel-master";
-// //static char* test = "./Test";
-// // Disc : Opens  a directory for reading and reutnrs null if the file doesn't exist 
-
-
-// typedef void (*flag_func)(DIR*);
-
-// DIR* open_Dir(char* dir_path){
-//         DIR* dir = opendir(dir_path);
-//     if(!dir){return NULL;}
-//     return dir;
-// }
-
-
-// //Disc : Reads the contents of a file 
-// void name_Read_Entities(DIR* dir ){
-//     struct dirent* file_entity;
-//     file_entity = readdir(dir);
-
-//      while (file_entity != NULL)
-//     { 
-//         if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
-//         {  
-//             printf("%s\n",   file_entity->d_name );
-//         }
-        
-//         file_entity = readdir(dir);
-//     }
-
-// }
-
-
-
-
-
-// //
-// void indoe_Read_Entities(DIR* dir){
-//     int i = 1; 
-//     struct dirent* file_entity;
-//     file_entity = readdir(dir);
-//      while (file_entity != NULL)
-//     {   if(strcmp(file_entity->d_name , ".") != 0  && strcmp(file_entity->d_name , "..") != 0 ) 
-//     {  
-       
-//         printf(" %8lu   %-8s  ",  file_entity->d_ino, file_entity->d_name );
-//          if(i%4 == 0){printf("\n\n" );}
-//          i++;
-
-    
-//     }
-        
-//         file_entity = readdir(dir);
-//     }
-//    printf("\n");
-// }
-
-// void L_Read_Entities(DIR* dir)
-// {
-//     struct dirent* file_entity;
-//     file_entity = readdir(dir);
-
-//     struct stat s;
-//      while (file_entity != NULL)
-//     {   if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-//         {   
-//             stat(file_entity->d_name , &s);
-//              printf(" File ID is : %lu  File name is : %s\n ", s.st_ino  , file_entity->d_name);
-//             file_entity = readdir(dir);
-//         }
-//         else {break;}
-//     }
-// }
-// void R_Read_Entities(DIR* dir, char* aPath, flag_func passedFunc){
-
-//     struct dirent* file_entity;
-//     printf("%s\n", aPath);
-//     passedFunc(dir);
-//     dir = open_Dir(aPath);
-//     file_entity = readdir(dir);
-    
-//      while (file_entity != NULL)
-//     {   
-//         if((strcmp(file_entity->d_name , "..") && strcmp(file_entity->d_name , ".")  ))
-//         {
-//              char path[300] = {0};
-//             if(file_entity->d_type == 4){
-//                 strcat(path, aPath);
-//                 strcat(path, "/");
-//                 strcat(path, file_entity->d_name);
-//                 DIR* dr = opendir(path);
-//                 printf("\n");
-//                 R_Read_Entities(dr, path,passedFunc);
-//             }  
-//         }
-//         file_entity = readdir(dir);
-//     }
-
-// }
-
-
-// //Desc opens the given directory and reads it's contents  
-// // returns -1 if the file DNE 
-
-// int ls_Default(char* dir_path){
-    
-//    DIR* dir =  opendir(dir_path);
-
-//     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
-//     name_Read_Entities(dir);
-// }
-
-// int l_Flag(char* dir_path)
-// {
-//     DIR* dir =  opendir(dir_path);
-//     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
-//     L_Read_Entities(dir);
-
-// }
-
-
-
-// //Desc opens the given directory and reads it's contents  
-// // returns -1 if the file DNE 
-
-// int i_Flag(char* dir_path){
-    
-//    DIR* dir =  opendir(dir_path);
-
-//     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
-//     indoe_Read_Entities(dir);
-// }
-// int R_Flag(char* dir_path, flag_func passedFunc){
-    
-//    DIR* dir =  opendir(dir_path);
-
-//     if(dir == NULL)
-//     {printf("Bad Input : Cannot open the file \n"); return -1;}
-//     R_Read_Entities(dir, test, passedFunc);
-// }
-
-
-
-// int main(int argc, char ** argv) {
-
-
-
-//     R_Flag(test, name_Read_Entities);
-
-
-//     return 0 ; 
-// }
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
@@ -479,9 +318,16 @@ int l_Flag(char* dir_path)
 }
 
 
+int il_Flag(char* dir_path){
+    
+   DIR* dir =  opendir(dir_path);
 
+    if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
+    LI_Read_Entities(dir, dir_path);
+}
 //Desc opens the given directory and reads it's contents  
 // returns -1 if the file DNE 
+
 
 int i_Flag(char* dir_path){
     
@@ -498,17 +344,84 @@ int R_Flag(char* dir_path, flag_func passedFunc){
     R_Read_Entities(dir, dir_path, passedFunc);
 }
 
+void parse_argv1(char* flags, int* ilR)
+{
+    for(int i =0;flags[i]!='\0';i++)
+    {
+        if(flags[i] == 'i')
+            ilR[0] = 1;
+        if(flags[i] == 'l')
+            ilR[1] = 1;
+        if(flags[i] == 'R')
+            ilR[2] = 1;
 
+    }
+}
 
 int main(int argc, char ** argv) {
 
-
+    char* path = ""; 
+    char* flags = argv[1];
+    int ilR[3];
     if(argc < 2)
     {
+        path = ".";
+        ilR[0] = 0;
+        ilR[1] = 0;
+        ilR[2] = 0;
     }
-    char* test = "./test_files";
-   ls_Default(test);
-
+    else if(argc == 2)
+    {
+        path = ".";
+        parse_argv1(flags, &ilR);    
+        
+    }
+    else if(argc == 3)
+    {
+        path = argv[2];
+        parse_argv1(flags, &ilR);
+    }
+    
+    //recursive
+    if(ilR[2] == 1)
+    {
+        //i
+        if(ilR[0] == 1 && ilR[1] != 1)
+        {
+            R_Flag(path, indoe_Read_Entities);
+        }
+        else if(ilR[0] != 1 && ilR[1] == 1)
+        {
+            R_Flag(path, L_Read_Entities);
+        }
+        else if(ilR[0] == 1 && ilR[1] == 1)
+        {
+            R_Flag(path, LI_Read_Entities);
+        }
+        else
+        {
+            R_Flag(path, name_Read_Entities);
+        }
+    }
+    else
+    {
+        if(ilR[0] == 1 && ilR[1] != 1)
+        {
+            i_Flag(path);
+        }
+        else if(ilR[0] != 1 && ilR[1] == 1)
+        {
+            l_Flag(path);
+        }
+        else if(ilR[0] == 1 && ilR[1] == 1)
+        {
+            il_Flag(path);
+        }
+        else
+        {
+            ls_Default(path);
+        }
+    }
 
     return 0 ; 
 }
