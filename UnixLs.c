@@ -10,8 +10,6 @@
 #include <time.h>
 
 
-static char* test = "/home/vagrant/Documents/CMPT276/project/parabix-devel-master";
-//static char* test = "./Test";
 // Disc : Opens  a directory for reading and reutnrs null if the file doesn't exist 
 
 
