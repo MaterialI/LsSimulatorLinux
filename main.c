@@ -10,9 +10,12 @@
 #include <time.h>
 
 
-//static char* test = "/home/vagrant/Documents/CMPT276/project/parabix-devel-master";
-static char* test = "./Test";
+static char* test = "/home/vagrant/Documents/CMPT276/project/parabix-devel-master";
+//static char* test = "./Test";
 // Disc : Opens  a directory for reading and reutnrs null if the file doesn't exist 
+
+
+typedef void (*flag_func)(DIR*);
 
 DIR* open_Dir(char* dir_path){
         DIR* dir = opendir(dir_path);
@@ -168,11 +171,11 @@ void L_Read_Entities(DIR* dir , char* path)
 
 
 }
-void R_Read_Entities(DIR* dir, char* aPath){
+void R_Read_Entities(DIR* dir, char* aPath, flag_func passedFunc){
 
     struct dirent* file_entity;
     printf("%s\n", aPath);
-    indoe_Read_Entities(dir);
+    passedFunc(dir);
     dir = open_Dir(aPath);
     file_entity = readdir(dir);
     
@@ -187,20 +190,15 @@ void R_Read_Entities(DIR* dir, char* aPath){
                 strcat(path, file_entity->d_name);
                 DIR* dr = opendir(path);
                 printf("\n");
-                R_Read_Entities(dr, path);
+                R_Read_Entities(dr, path,passedFunc);
             }  
         }
-        
         file_entity = readdir(dir);
     }
 
 
 
 }
-
-
-
-
 
 
 //Desc opens the given directory and reads it's contents  
@@ -234,14 +232,12 @@ int i_Flag(char* dir_path){
     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
     indoe_Read_Entities(dir);
 }
-
-
-int R_Flag(char* dir_path){
+int R_Flag(char* dir_path, flag_func passedFunc){
     
    DIR* dir =  opendir(dir_path);
 
     if(dir == NULL){printf("Bad Input : Cannot open the file \n"); return -1;}
-    R_Read_Entities(dir, test);
+    R_Read_Entities(dir, test, passedFunc);
 }
 
 
