@@ -503,7 +503,9 @@ int R_Flag(char* dir_path, flag_func passedFunc){
 int main(int argc, char ** argv) {
 
 
-
+    if(argc < 2)
+    {
+    }
     char* test = "./test_files";
    ls_Default(test);
 
