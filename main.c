@@ -392,19 +392,22 @@ int main(int argc, char ** argv) {
     //recursive
     if(ilR[2] == 1)
     {
-        //i
+        //Ri
         if(ilR[0] == 1 && ilR[1] != 1)
         {
             R_Flag(path, indoe_Read_Entities);
         }
+        //lR
         else if(ilR[0] != 1 && ilR[1] == 1)
         {
             R_Flag(path, L_Read_Entities);
         }
+        //ilR
         else if(ilR[0] == 1 && ilR[1] == 1)
         {
             R_Flag(path, LI_Read_Entities);
         }
+        //R
         else
         {
             R_Flag(path, name_Read_Entities);
@@ -412,18 +415,22 @@ int main(int argc, char ** argv) {
     }
     else
     {
+        //i
         if(ilR[0] == 1 && ilR[1] != 1)
         {
             i_Flag(path);
         }
+        //l
         else if(ilR[0] != 1 && ilR[1] == 1)
         {
             l_Flag(path);
         }
+        //il
         else if(ilR[0] == 1 && ilR[1] == 1)
         {
             il_Flag(path);
         }
+        // default
         else
         {
             ls_Default(path);
