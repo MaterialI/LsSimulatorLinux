@@ -370,11 +370,18 @@ int main(int argc, char ** argv) {
         ilR[1] = 0;
         ilR[2] = 0;
     }
-    else if(argc == 2)
+    else if(argc == 2 && argv[1][0] == '-')
     {
         path = ".";
         parse_argv1(flags, &ilR);    
         
+    }
+    else if(argc == 2 && argv[1][0] != '-')
+    {
+        path = argv[1];
+        ilR[0] = 0;
+        ilR[1] = 0;
+        ilR[2] = 0;
     }
     else if(argc == 3)
     {
